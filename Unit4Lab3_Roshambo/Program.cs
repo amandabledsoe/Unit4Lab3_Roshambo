@@ -5,6 +5,7 @@ Console.WriteLine("Welcome to the Roshambo game!");
 Console.WriteLine();
 
 bool runningProgram = true;
+int numberOfWins = 0;
 while (runningProgram)
 {
     HumanPlayer thisPlayer = new HumanPlayer();
@@ -30,13 +31,13 @@ while (runningProgram)
         Console.WriteLine();
         if (Regex.IsMatch(playerChoice, rockPlayerInput, RegexOptions.IgnoreCase))
         {
-            PlayingRockPlayer(thisPlayer);
-            gettingPlayerChoice = WannaRestart();
+            PlayingRockPlayer(thisPlayer, ref numberOfWins);
+            gettingPlayerChoice = WannaRestart(thisPlayer, numberOfWins);
         }
         else if (Regex.IsMatch(playerChoice, randomPlayerInput, RegexOptions.IgnoreCase))
         {
-            PlayingRandomPlayer(thisPlayer);
-            gettingPlayerChoice = WannaRestart();
+            PlayingRandomPlayer(thisPlayer, ref numberOfWins);
+            gettingPlayerChoice = WannaRestart(thisPlayer, numberOfWins);
         }
         else
         {
@@ -57,14 +58,31 @@ static void PauseAndClearScreen()
     Console.ReadLine();
     Console.Clear();
 }
-static bool WannaRestart()
+static bool WannaRestart(HumanPlayer thisPlayer, int numberOfWins)
 {
     string yesInput = "[y][e][s]";
     string noInput = "[n][o]";
     bool askingUser = true;
     while (askingUser)
     {
-        Console.WriteLine("Would you like to play the Roshambo game again?");
+        if (numberOfWins == 0)
+        {
+            Console.WriteLine($"Let's play again {thisPlayer.Name}! You dont have any wins yet!");
+            Console.WriteLine();
+            Console.WriteLine("Would you like to try and get a win under your belt by playing Roshambo again?");
+        }
+        else if (numberOfWins == 1)
+        {
+            Console.WriteLine($"Nice work, {thisPlayer.Name}! You have {numberOfWins} win so far!");
+            Console.WriteLine();
+            Console.WriteLine("Would you like to play the Roshambo game again?");
+        }
+        else
+        {
+            Console.WriteLine($"Nice work, {thisPlayer.Name}! You have {numberOfWins} wins so far!");
+            Console.WriteLine();
+            Console.WriteLine("Would you like to play the Roshambo game again?");
+        }
         Console.WriteLine("Enter 'YES' to play again or 'NO' to exit the program.");
         Console.Write("Your choice: ");
         string userChoice = Console.ReadLine();
@@ -87,14 +105,14 @@ static bool WannaRestart()
     }
     return false;
 }
-static void PlayingRockPlayer(HumanPlayer thisPlayer)
+static void PlayingRockPlayer(HumanPlayer thisPlayer, ref int numberOfWins)
 {
     Console.ForegroundColor = ConsoleColor.Cyan;
     Console.WriteLine("You are now playing Roshambo against Rock Player!");
     Console.ResetColor();
     RockPlayer thisRockPlayer = new RockPlayer();
     Console.WriteLine();
-    Roshambo choice = thisPlayer.GenerateRoshambo();
+    thisPlayer.GenerateRoshambo();
     Console.WriteLine();
     if (thisPlayer.Choice == Roshambo.Rock)
     {
@@ -113,6 +131,7 @@ static void PlayingRockPlayer(HumanPlayer thisPlayer)
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.DarkGreen;
         Console.WriteLine("Paper beats Rock - YOU WIN!");
+        numberOfWins = numberOfWins + 1;
         Console.ResetColor();
         PauseAndClearScreen();
     }
@@ -127,14 +146,14 @@ static void PlayingRockPlayer(HumanPlayer thisPlayer)
         PauseAndClearScreen();
     }
 }
-static void PlayingRandomPlayer(HumanPlayer thisPlayer)
+static void PlayingRandomPlayer(HumanPlayer thisPlayer, ref int numberOfWins)
 {
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("You are now playing Roshambo against Random Player!");
     Console.ResetColor();
     RandomPlayer thisRandomPlayer = new RandomPlayer();
     Console.WriteLine();
-    Roshambo choice = thisRandomPlayer.GenerateRoshambo();
+    thisRandomPlayer.GenerateRoshambo();
     thisPlayer.GenerateRoshambo();
     Console.WriteLine();
     if (thisPlayer.Choice == Roshambo.Rock)
@@ -166,6 +185,7 @@ static void PlayingRandomPlayer(HumanPlayer thisPlayer)
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Rock beats Sciossors - YOU WIN!");
+            numberOfWins = numberOfWins + 1;
             Console.ResetColor();
             PauseAndClearScreen();
         }
@@ -179,6 +199,7 @@ static void PlayingRandomPlayer(HumanPlayer thisPlayer)
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Paper beats rock - YOU WIN!");
+            numberOfWins = numberOfWins + 1;
             Console.ResetColor();
             PauseAndClearScreen();
         }
@@ -222,6 +243,7 @@ static void PlayingRandomPlayer(HumanPlayer thisPlayer)
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Scissors beats paper - YOU WIN!");
+            numberOfWins = numberOfWins + 1;
             Console.ResetColor();
             PauseAndClearScreen();
         }

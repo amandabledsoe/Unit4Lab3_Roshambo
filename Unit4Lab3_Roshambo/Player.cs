@@ -44,8 +44,24 @@ namespace Unit4Lab3_Roshambo
     {
         public HumanPlayer()
         {
-            Console.Write("Please enter your name: ");
-            Name =  Console.ReadLine();
+            bool gettingName = true;
+            while (gettingName)
+            {
+                Console.Write("Please enter your name: ");
+                string enteredName = Console.ReadLine();
+                if (string.IsNullOrEmpty(enteredName))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("C'mon now - give us your real name!");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Name = enteredName;
+                    gettingName = false;
+                }
+            }
         }
         public override Roshambo GenerateRoshambo()
         {
@@ -62,17 +78,17 @@ namespace Unit4Lab3_Roshambo
                 if (Regex.IsMatch(input, rockInput, RegexOptions.IgnoreCase))
                 {
                     Choice = Roshambo.Rock;
-                    return Roshambo.Rock;
+                    return Choice;
                 }
                 else if (Regex.IsMatch(input, paperInput, RegexOptions.IgnoreCase))
                 {
                     Choice = Roshambo.Paper;
-                    return Roshambo.Paper;
+                    return Choice;
                 }
                 else if (Regex.IsMatch(input, scissorsInput, RegexOptions.IgnoreCase))
                 {
                     Choice = Roshambo.Scissors;
-                    return Roshambo.Scissors;
+                    return Choice;
                 }
                 else
                 {
