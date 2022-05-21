@@ -17,7 +17,6 @@ namespace Unit4Lab3_Roshambo
     {
         public string? Name { get; set; }
         public Roshambo Choice { get; set; }
-
         public virtual Roshambo GenerateRoshambo()
         {
             return Roshambo.Rock;
@@ -71,10 +70,9 @@ namespace Unit4Lab3_Roshambo
             bool gettingInput = true;
             while (gettingInput)
             {
-                Console.WriteLine("Please enter your battle choice: Rock, Paper or Scissors.");
+                Console.WriteLine("Please enter your battle choice: Rock, Paper, or Scissors.");
                 Console.Write("Your battle choice: ");
                 string input = Console.ReadLine();
-
                 if (Regex.IsMatch(input, rockInput, RegexOptions.IgnoreCase))
                 {
                     Choice = Roshambo.Rock;

@@ -1,24 +1,16 @@
 ﻿using System.Text.RegularExpressions;
 using Unit4Lab3_Roshambo;
 
-Console.WriteLine("Welcome to the Roshambo game!");
-Console.WriteLine();
-
-bool runningProgram = true;
 int numberOfWins = 0;
 int numberOfLosses = 0;
+bool runningProgram = true;
+
+Console.WriteLine("Welcome to the Roshambo game!");
+Console.WriteLine();
 while (runningProgram)
 {
     HumanPlayer thisPlayer = new HumanPlayer();
-    Console.WriteLine();
-    Console.Write($"Hello, ");
-    Console.ForegroundColor = ConsoleColor.Magenta;
-    Console.Write(thisPlayer.Name);
-    Console.ResetColor();
-    Console.Write("! Let the games begin!");
-    Console.WriteLine();
-    PauseAndClearScreen();
-
+    PrintIntro(thisPlayer);
     bool gettingPlayerChoice = true;
     while (gettingPlayerChoice)
     {
@@ -58,6 +50,17 @@ static void PauseAndClearScreen()
     Console.WriteLine("Press Enter to Continue.");
     Console.ReadLine();
     Console.Clear();
+}
+static void PrintIntro(HumanPlayer thisPlayer)
+{
+    Console.WriteLine();
+    Console.Write($"Hello, ");
+    Console.ForegroundColor = ConsoleColor.Magenta;
+    Console.Write(thisPlayer.Name);
+    Console.ResetColor();
+    Console.Write("! Let the games begin!");
+    Console.WriteLine();
+    PauseAndClearScreen();
 }
 static bool WannaRestart(HumanPlayer thisPlayer, int numberOfWins, int numberOfLosses)
 {
